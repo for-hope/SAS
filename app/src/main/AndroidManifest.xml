@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.forhope.sas">
+    package="com.lamfee.sas">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -14,15 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="SettingsActivity">
+            android:name="com.lamfee.sas.SettingsActivity">
             android:label="@string/app_name">
         </activity>
         <activity
-            android:name=".ContactsListActivity">
+            android:name="com.lamfee.sas.ContactsListActivity">
             android:label="@string/app_name">
         </activity>
+
         <activity
-            android:name=".MainActivity"
+            android:name="com.lamfee.sas.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,11 +33,23 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".SafetyMode"
+            android:name="com.lamfee.sas.SafetyMode"
             android:label="My Service"
             android:exported="false">
         </service>
-        <receiver android:name=".MyReceiver" >
+        <receiver android:name="com.lamfee.sas.MyReceiver" >
+        </receiver>
+        <receiver
+            android:icon="@drawable/ic_action1_tick"
+            android:label="Example Widget"
+            android:name="com.lamfee.sas.MyWidgetProvider" >
+            <intent-filter >
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
         </receiver>
     </application>
 

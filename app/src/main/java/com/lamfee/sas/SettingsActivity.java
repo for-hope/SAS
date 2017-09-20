@@ -1,8 +1,7 @@
-package com.forhope.sas;
+package com.lamfee.sas;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBarActivity;
 
 /**
  * Created by Lamine on 6/2/2017.

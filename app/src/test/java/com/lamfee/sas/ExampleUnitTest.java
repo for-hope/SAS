@@ -1,4 +1,4 @@
-package com.forhope.sas;
+package com.lamfee.sas;
 
 import org.junit.Test;
 

@@ -1,6 +1,5 @@
-package com.forhope.sas;
+package com.lamfee.sas;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -40,11 +39,11 @@ public class Tab3Fragment extends Fragment {
         } else {
             frameLayout.setBackgroundColor(getResources().getColor(R.color.layoutred));
         }
-        dummyStrings = new String[]{"Send a feedback!","Rate it","Share this with your friends!","Donate","How To Use","License"};
-        dummyDes = new String[]{"Send us any questions or feedback you have!","Rate Us On The Play Store!","Share this app with your family and friends to help them too!","Donate and support the Developer","Learn how to use the app","Made by Lamine:)"};
+        dummyStrings = new String[]{"Send a feedback!","Rate it","Share this with your friends!","Donate","License"};
+        dummyDes = new String[]{"Send us any questions or feedback you have!","Rate Us On The Play Store!","Share this app with your family and friends to help them too!","Donate and support the Developer","Application License"};
         // myImageList = getResources().getIntArray(R.array.img_id_arr);
         myImageList = new int[]{R.drawable.ic_assignment_white_24dp, R.drawable.ic_star_white_24dp,R.drawable.ic_share_white_24dp,R.drawable.ic_favorite_white_24dp,R.drawable.ic_note_white_24dp,R.drawable.ic_action_tick};
-        colors= new int[]{Color.rgb(0,206,209),Color.rgb(60,179,113),R.color.Safe, Color.rgb(255,99,71),Color.rgb(255,140,0),Color.rgb(147,112,219)};
+        colors= new int[]{Color.rgb(0,206,209),Color.rgb(60,179,113),R.color.Safe, Color.rgb(255,99,71),Color.rgb(147,112,219)};
 
 
         CostumeAdapter costumeAdapter = new CostumeAdapter();
@@ -70,10 +69,6 @@ public class Tab3Fragment extends Fragment {
                         break;
                     }
                     case 4: {
-                        Toast.makeText(getContext(), "Coming Soon!", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    case 5: {
                         Toast.makeText(getContext(), "Made by Lamine with Love", Toast.LENGTH_SHORT).show();
                     }
                 }

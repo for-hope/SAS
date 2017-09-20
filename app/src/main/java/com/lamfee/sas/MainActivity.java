@@ -1,12 +1,7 @@
-package com.forhope.sas;
+package com.lamfee.sas;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 //import android.support.v4.app.Fragment;
@@ -19,8 +14,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -46,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},1);
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
 

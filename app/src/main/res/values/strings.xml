@@ -8,18 +8,16 @@
         <item>Add Contacts</item>
         <item>Costume SMS</item>
         <item>Repeating Period</item>
-        <item>Favorites</item>
         <item>More Settings</item>
-        <item>Remove Chosen Contacts</item>
+        <item>Clear Settings</item>
     </string-array>
 
     <string-array name="my_des_items">
         <item>Choose a trusted contact</item>
         <item>Create a costume SMS to send in case of an Emergency</item>
         <item>SMS Repeating Period</item>
-        <item>Choose your favorite Contacts</item>
         <item>View More Settings and Preferences</item>
-        <item>This Clears All Contact You Choose</item>
+        <item>This Clears All Contacts You Chose</item>
     </string-array>
 
     <integer-array name="img_id_arr">

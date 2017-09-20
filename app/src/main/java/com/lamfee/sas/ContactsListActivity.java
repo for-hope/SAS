@@ -1,9 +1,8 @@
-package com.forhope.sas;
+package com.lamfee.sas;
 
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
 
 public class ContactsListActivity extends Activity {

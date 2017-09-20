@@ -1,4 +1,4 @@
-package com.forhope.sas;
+package com.lamfee.sas;
 
 
 import android.content.DialogInterface;
@@ -55,8 +55,8 @@ public class Tab2Fragment extends Fragment {
         dummyStrings = getResources().getStringArray(R.array.my_items);
         dummyDes = getResources().getStringArray(R.array.my_des_items);
       // myImageList = getResources().getIntArray(R.array.img_id_arr);
-        myImageList = new int[]{R.drawable.ic_perm_contact_calendar_white_24dp, R.drawable.ic_message_white_24dp,R.drawable.ic_schedule_white_24dp,R.drawable.ic_favorite_white_24dp,R.drawable.ic_settings_white_24dp,R.drawable.ic_report_problem_white_24dp};
-        colors= new int[]{Color.rgb(0,206,209),Color.rgb(60,179,113),R.color.Safe, Color.rgb(255,99,71),Color.rgb(255,140,0),Color.rgb(147,112,219)};
+        myImageList = new int[]{R.drawable.ic_perm_contact_calendar_white_24dp, R.drawable.ic_message_white_24dp,R.drawable.ic_schedule_white_24dp,R.drawable.ic_settings_white_24dp,R.drawable.ic_report_problem_white_24dp};
+        colors= new int[]{Color.rgb(0,206,209),Color.rgb(60,179,113),R.color.Safe, Color.rgb(255,99,71),Color.rgb(147,112,219)};
 
 
 
@@ -81,17 +81,11 @@ public class Tab2Fragment extends Fragment {
                         getNumberPicker();
                         break;
                     case 3: {
-                        displayInfo();
-                        Intent intent = new Intent(getContext(), ContactsListActivity.class);
-                        startActivity(intent);
-                        break;
-                    }
-                    case 4: {
                         Intent intent = new Intent(getContext(), SettingsActivity.class);
                         startActivity(intent);
                         break;
                     }
-                    case 5: {
+                    case 4: {
                         db.removeAll();
                     }
                 }
@@ -207,7 +201,7 @@ public class Tab2Fragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d(TAG, "onClick: " + numberPicker.getValue());
-                Prefrences.saveInfo(getContext(),"timePeriod",numberPicker.getValue());
+                Preferences.saveInfo(getContext(),"timePeriod",numberPicker.getValue());
             }
         });
         d.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -243,7 +237,7 @@ public class Tab2Fragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 m_Text = input.getText().toString();
-                Prefrences.saveInfo(getContext(),"costumeSMS",m_Text);
+                Preferences.saveInfo(getContext(),"costumeSMS",m_Text);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

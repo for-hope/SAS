@@ -1,11 +1,13 @@
-package com.forhope.sas;
+package com.lamfee.sas;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -21,8 +23,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +39,8 @@ import android.widget.TextView;
 import com.github.ybq.android.spinkit.SpinKitView;
 
 import at.markushi.ui.CircleButton;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 
 public class Tab1Fragment extends Fragment implements LocationListener {
@@ -186,8 +190,56 @@ public class Tab1Fragment extends Fragment implements LocationListener {
 
 
     }
+    private void startNotification() {
+        Log.i("NextActivity", "startNotification");
 
+        // Sets an ID for the notification
+        int mNotificationId = 001;
+
+        // Build Notification , setOngoing keeps the notification always in status bar
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(getContext())
+                        .setSmallIcon(R.drawable.ic_action1_tick)
+                        .setContentTitle("WARNING (UnSafe Mode)")
+                        .setContentText("TAP TO STOP")
+                        .setOngoing(true)
+                        .setColor(getResources().getColor(R.color.BtnNotSafe));
+
+
+
+
+        // Create pending intent, mention the Activity which needs to be
+        //triggered when user clicks on notification(StopScript.class in this case)
+
+        PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0,
+                new Intent(getContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        mBuilder.setContentIntent(contentIntent);
+
+
+        // Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
+
+        // Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+
+
+    }
+private void updateWidget(){
+    Intent intent = new Intent(getContext(),MyWidgetProvider.class);
+    intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+// Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+// since it seems the onUpdate() is only fired on that:
+    int[] ids = {0};
+    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+    getContext().sendBroadcast(intent);
+}
     private void unSaveStatue(View view) {
+
+updateWidget();
+        startNotification();
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         } else {
@@ -231,6 +283,9 @@ public class Tab1Fragment extends Fragment implements LocationListener {
     }
 
     private void safeStatue(View view) {
+        updateWidget();
+        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(001);
         frameLayout.setBackgroundColor(Color.parseColor("#9ad100"));
         safeButton.setVisibility(View.VISIBLE);
         circleButton.setVisibility(View.GONE);

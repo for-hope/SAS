@@ -1,4 +1,4 @@
-package com.forhope.sas;
+package com.lamfee.sas;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,7 +8,7 @@ import android.widget.Toast;
  * Created by lamine on 08/06/2017.
  */
 
-class Prefrences {
+class Preferences {
     static void saveInfo(Context context, String key, String value) {
         SharedPreferences sharedPref = context.getSharedPreferences("userPref",Context.MODE_APPEND);
         SharedPreferences.Editor editor = sharedPref.edit();
