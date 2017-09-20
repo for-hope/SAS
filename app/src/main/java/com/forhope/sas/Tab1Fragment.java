@@ -200,7 +200,7 @@ public class Tab1Fragment extends Fragment implements LocationListener {
             Log.i("Longitude",Double.toString(lon));
             String latString = String.format("%.5f", lat);
             String lonString = String.format("%.5f", lon);
-            googlemapslink = "www.google.dz/maps/search/"+latString+","+lonString;
+            googlemapslink = "google.com/maps/search/"+latString+","+lonString;
         } else {
             Log.i("Location Info", "NO LOCATION");
             googlemapslink = "Location Services is Off But the Sender is in Trouble";
@@ -210,8 +210,8 @@ public class Tab1Fragment extends Fragment implements LocationListener {
         safeButton.setVisibility(View.GONE);
         circleButton.setVisibility(View.VISIBLE);
         textView.setBackgroundColor(getResources().getColor(R.color.BtnNotSafe));
-        textView.setText("YOUR STATUE IS :UNSAFE!");
-        getActivity().setTitle("WARNING: UNSAFE STATUE");
+        textView.setText("YOUR STATUS IS :UNSAFE!");
+        getActivity().setTitle("WARNING: UNSAFE STATUS");
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryN));
         appBarLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimaryN));
         tabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimaryN));
@@ -234,7 +234,7 @@ public class Tab1Fragment extends Fragment implements LocationListener {
         frameLayout.setBackgroundColor(Color.parseColor("#9ad100"));
         safeButton.setVisibility(View.VISIBLE);
         circleButton.setVisibility(View.GONE);
-        textView.setText("YOUR STATUE IS :SAFE!");
+        textView.setText("YOUR STATUS IS :SAFE!");
         textView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         appBarLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -288,7 +288,7 @@ public class Tab1Fragment extends Fragment implements LocationListener {
         // Hello World Comment
         String latString = String.format("%.5f", lat);
         String lonString = String.format("%.5f", lon);
-        googlemapslink = "www.google.dz/maps/search/"+latString+","+lonString;
+        googlemapslink = "google.com/maps/search/"+latString+","+lonString;
         Log.i("GOOGLE",googlemapslink);
     }
   

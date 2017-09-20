@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SAS</string>
+    <string name="app_name">Safe And Sound</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
@@ -10,7 +10,7 @@
         <item>Repeating Period</item>
         <item>Favorites</item>
         <item>More Settings</item>
-        <item>Report a Problem</item>
+        <item>Remove Chosen Contacts</item>
     </string-array>
 
     <string-array name="my_des_items">
@@ -19,7 +19,7 @@
         <item>SMS Repeating Period</item>
         <item>Choose your favorite Contacts</item>
         <item>View More Settings and Preferences</item>
-        <item>Help us improve</item>
+        <item>This Clears All Contact You Choose</item>
     </string-array>
 
     <integer-array name="img_id_arr">

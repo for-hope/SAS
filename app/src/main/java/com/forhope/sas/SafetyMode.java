@@ -65,7 +65,7 @@ public class SafetyMode extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(getApplicationContext(),"Service Started",Toast.LENGTH_LONG).show();
+     //   Toast.makeText(getApplicationContext(),"Service Started",Toast.LENGTH_LONG).show();
          isSafe=false;
         AlarmManager alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent someIntent = new Intent(this, MyReceiver.class);
@@ -77,7 +77,7 @@ public class SafetyMode extends Service {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(SafetyMode.this,"Service Stopped",Toast.LENGTH_LONG).show();
+      //  Toast.makeText(SafetyMode.this,"Service Stopped",Toast.LENGTH_LONG).show();
         AlarmManager alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, MyReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);

@@ -12,6 +12,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,7 +55,7 @@ public class Tab2Fragment extends Fragment {
         dummyStrings = getResources().getStringArray(R.array.my_items);
         dummyDes = getResources().getStringArray(R.array.my_des_items);
       // myImageList = getResources().getIntArray(R.array.img_id_arr);
-        myImageList = new int[]{R.drawable.ic_perm_contact_calendar_white_24dp, R.drawable.ic_action_tick,R.drawable.ic_schedule_white_24dp,R.drawable.ic_action1_tick,R.drawable.ic_settings_phone_white_24dp,R.drawable.ic_report_problem_white_24dp};
+        myImageList = new int[]{R.drawable.ic_perm_contact_calendar_white_24dp, R.drawable.ic_message_white_24dp,R.drawable.ic_schedule_white_24dp,R.drawable.ic_favorite_white_24dp,R.drawable.ic_settings_white_24dp,R.drawable.ic_report_problem_white_24dp};
         colors= new int[]{Color.rgb(0,206,209),Color.rgb(60,179,113),R.color.Safe, Color.rgb(255,99,71),Color.rgb(255,140,0),Color.rgb(147,112,219)};
 
 
@@ -232,6 +233,9 @@ public class Tab2Fragment extends Fragment {
         final EditText input = new EditText(getContext());
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        final int maxLength=120;
+        input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        input.setSingleLine(true);
         builder.setView(input);
 
         // Set up the buttons

@@ -2,43 +2,44 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Main">
+        android:title="PRO VERSION">
 
         <CheckBoxPreference
             android:key="checkbox_preference"
             android:title="Enable PRO VERSION"
-            android:summary="Disabled" />
+            android:summary="Get PRO Mode for 1.99$ And Support The Developer!" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Safe Settings">
+        android:title="User Preferences">
 
-        <EditTextPreference
-            android:key="phone_numbers"
-            android:title="Trusted Phone Numbers "
-            android:summary="choose your phone numbers"
-            android:dialogTitle="Phone Numbers" />
+        <CheckBoxPreference
+            android:key="checkbox_preference"
+            android:title="Enable Vibration During unSafe Mode"
+            android:summary="Enabled" />
 
-        <ListPreference
-            android:key="list_preference"
-            android:title="Group Call"
-            android:summary="Choose group calls"
-
-            android:dialogTitle="ring/dialog_title_list_preference" />
+        <CheckBoxPreference
+            android:key="checkbox_preference"
+            android:title="Show Notification During unSafe Mode"
+            android:summary="Enabled" />
+        <CheckBoxPreference
+            android:key="checkbox_preference"
+            android:title="Get Confirmation Dialog"
+            android:summary="Enabled" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Sound And Vibration">
+        android:title="More">
 
         <!-- This PreferenceScreen tag serves as a screen break (similar to page break
              in word processing). Like for other preference types, we assign a key
              here so it is able to save and restore its instance state. -->
         <PreferenceScreen
-            android:key="Enable_Vibration"
-            android:title="Enable Vibration"
-            android:summary="Vibration is ON">
+            android:key="FAQ"
+            android:title="FAQ"
+            android:summary="Frequently Asked Questions!">
 
             <!-- You can place more preferences here that will be shown on the next screen. -->
 
@@ -50,8 +51,8 @@
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:title="Enable_Sound"
-            android:summary="Sound is ON">
+            android:title="How To Use"
+            android:summary="Coming Soon">
 
             <intent android:action="android.intent.action.VIEW"
                 android:data="http://www.android.com" />
@@ -61,20 +62,20 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="ing/preference_attributes">
+        android:title="Pro Mode Features">
 
         <CheckBoxPreference
-            android:key="parent_checkbox_preference"
-            android:title="tring/title_parent_preference"
-            android:summary="string/summary_parent_preference" />
+            android:key="ProMode"
+            android:title="Enable Pro Mode ?"
+            android:summary="You must buy the app to use this!" />
 
         <!-- The visual style of a child is defined by this styled theme attribute. -->
         <CheckBoxPreference
             android:key="child_checkbox_preference"
-            android:dependency="parent_checkbox_preference"
+            android:dependency="ProMode"
             android:layout="?android:attr/preferenceLayoutChild"
-            android:title="tring/title_child_preference"
-            android:summary="string/summary_child_preference" />
+            android:title="Coming Soon!"
+            android:summary="Wait for it!" />
 
     </PreferenceCategory>
 
