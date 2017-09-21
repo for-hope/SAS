@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class TodoCursorAdapter extends CursorAdapter {
-    public TodoCursorAdapter(Context context, Cursor cursor) {
+class TodoCursorAdapter extends CursorAdapter {
+    TodoCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
 

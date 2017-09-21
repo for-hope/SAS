@@ -1,6 +1,7 @@
 package com.lamfee.sas;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -24,6 +25,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -34,6 +36,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.github.ybq.android.spinkit.SpinKitView;
@@ -73,19 +76,18 @@ public class Tab1Fragment extends Fragment implements LocationListener {
         redCircle = (SpinKitView) view.findViewById(R.id.redCircle);
         greenCircle = (SpinKitView) view.findViewById(R.id.spin_kit);
         vibe = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-
         locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
 
 
 
         if (SafetyMode.isSafe) {
-            safeStatue(view);
+            safeStatue();
             //SafetyMode.isSafe=true;
             Log.d("TAG", "SAFE");
 
         } else {
-            unSaveStatue(view);
+            unSaveStatue();
           //  SafetyMode.isSafe = false;
             //SafetyMode.unSafeMode(getContext());
             Log.d("TAG", "not SAFE");
@@ -95,8 +97,9 @@ public class Tab1Fragment extends Fragment implements LocationListener {
             public void onClick(View v) {
                 SafetyMode.isSafe = true;
                 safetyStart();
-                safeStatue(view);
+                safeStatue();
                 vibe.vibrate(200);
+
 
 
             }
@@ -125,11 +128,13 @@ public class Tab1Fragment extends Fragment implements LocationListener {
                     alert.show();
                 }
                  else {
-
+                    long[] pattern = {0, 100, 1000};
+                    vibe.vibrate(pattern,0);
 
                 final Dialog dialog = new Dialog(getActivity());
                 dialog.setTitle("Confirmation");
                 dialog.setContentView(R.layout.dialog_confirmation);
+                dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
                 final TextView label = (TextView) dialog.findViewById(R.id.Labeltext);
 
@@ -139,16 +144,15 @@ public class Tab1Fragment extends Fragment implements LocationListener {
                 new CountDownTimer(30000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
-                        label.setText("Seconds remaining! : " + millisUntilFinished / 1000);
+                        label.setText(String.format(getString(R.string.seconds_remaining), millisUntilFinished / 1000));
                     }
 
                     public void onFinish() {
                         if (dialog.isShowing()) {
-                            label.setText("done!");
-                            unSaveStatue(view);
+                            label.setText(R.string.done);
+                            unSaveStatue();
                             SafetyMode.isSafe = false;
                             safetyStart();
-                            vibe.vibrate(300);
                             dialog.cancel();
                         }
                     }
@@ -162,6 +166,7 @@ public class Tab1Fragment extends Fragment implements LocationListener {
                     public void onClick(View view) {
                         //user cancels
                         dialog.cancel();
+                        vibe.cancel();
                     }
                 });
 
@@ -171,10 +176,10 @@ public class Tab1Fragment extends Fragment implements LocationListener {
                     public void onClick(View view) {
 
                       // starting the service
-                        unSaveStatue(view);
+                        unSaveStatue();
                         SafetyMode.isSafe = false;
                         safetyStart();
-                        vibe.vibrate(300);
+                        //vibe.vibrate(300);
                         dialog.cancel();
 
                         //code when the user accepts / change to unSave
@@ -194,18 +199,16 @@ public class Tab1Fragment extends Fragment implements LocationListener {
         Log.i("NextActivity", "startNotification");
 
         // Sets an ID for the notification
-        int mNotificationId = 001;
+        int mNotificationId = 1;
 
         // Build Notification , setOngoing keeps the notification always in status bar
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(getContext())
-                        .setSmallIcon(R.drawable.ic_action1_tick)
-                        .setContentTitle("WARNING (UnSafe Mode)")
-                        .setContentText("TAP TO STOP")
-                        .setOngoing(true)
-                        .setColor(getResources().getColor(R.color.BtnNotSafe));
-
-
+        NotificationCompat.Builder mBuilder;
+        mBuilder = new NotificationCompat.Builder(getContext())
+                .setSmallIcon(R.drawable.ic_action1_tick)
+                .setContentTitle(getString(R.string.notif_title))
+                .setContentText(getString(R.string.notif_desc))
+                .setOngoing(true)
+                .setColor(ContextCompat.getColor(getContext(),R.color.BtnNotSafe));
 
 
         // Create pending intent, mention the Activity which needs to be
@@ -236,7 +239,9 @@ private void updateWidget(){
     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
     getContext().sendBroadcast(intent);
 }
-    private void unSaveStatue(View view) {
+    private void unSaveStatue() {
+
+        // Vibrate for 500 milliseconds
 
 updateWidget();
         startNotification();
@@ -250,67 +255,69 @@ updateWidget();
             double lon = location.getLongitude();
             Log.i("Latitude",Double.toString(lat));
             Log.i("Longitude",Double.toString(lon));
-            String latString = String.format("%.5f", lat);
-            String lonString = String.format("%.5f", lon);
+            @SuppressLint("DefaultLocale") String latString = String.format("%.5f", lat);
+            @SuppressLint("DefaultLocale") String lonString = String.format("%.5f", lon);
             googlemapslink = "google.com/maps/search/"+latString+","+lonString;
         } else {
             Log.i("Location Info", "NO LOCATION");
-            googlemapslink = "Location Services is Off But the Sender is in Trouble";
+            googlemapslink = "GPS is not working, try calling sender!";
         }
         }
-        frameLayout.setBackgroundColor(getResources().getColor(R.color.NotSafe));
+        frameLayout.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.NotSafe));
         safeButton.setVisibility(View.GONE);
         circleButton.setVisibility(View.VISIBLE);
-        textView.setBackgroundColor(getResources().getColor(R.color.BtnNotSafe));
-        textView.setText("YOUR STATUS IS :UNSAFE!");
-        getActivity().setTitle("WARNING: UNSAFE STATUS");
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryN));
-        appBarLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimaryN));
-        tabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimaryN));
-        tabLayout.setTabTextColors(Color.WHITE, getResources().getColor(R.color.colorAccentN));
-        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorAccentN));
+        textView.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.BtnNotSafe));
+        textView.setText(R.string.unsafe);
+        getActivity().setTitle(getString(R.string.warningtitle));
+        toolbar.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimaryN));
+        appBarLayout.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimaryN));
+        tabLayout.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimaryN));
+        tabLayout.setTabTextColors(Color.WHITE, ContextCompat.getColor(getContext(),R.color.colorAccentN));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(getContext(),R.color.colorAccentN));
         greenCircle.setVisibility(View.GONE);
         redCircle.setVisibility(View.VISIBLE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getActivity().getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDarkN));
-            window.setNavigationBarColor(getResources().getColor(R.color.colorPrimaryDarkN));
+            window.setStatusBarColor(ContextCompat.getColor(getContext(),R.color.colorPrimaryDarkN));
+            window.setNavigationBarColor(ContextCompat.getColor(getContext(),R.color.colorPrimaryDarkN));
 
         }
 
     }
 
-    private void safeStatue(View view) {
+    private void safeStatue() {
+        vibe.cancel();
         updateWidget();
         NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(001);
+        notificationManager.cancel(1);
         frameLayout.setBackgroundColor(Color.parseColor("#9ad100"));
         safeButton.setVisibility(View.VISIBLE);
         circleButton.setVisibility(View.GONE);
-        textView.setText("YOUR STATUS IS :SAFE!");
-        textView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        appBarLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        tabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        tabLayout.setTabTextColors(Color.WHITE, getResources().getColor(R.color.colorAccent));
-        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorAccent));
+        textView.setText(R.string.safe);
+        textView.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimaryDark));
+        toolbar.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
+        appBarLayout.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
+        tabLayout.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
+        tabLayout.setTabTextColors(Color.WHITE, ContextCompat.getColor(getContext(),R.color.colorAccent));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(getContext(),R.color.colorAccent));
         greenCircle.setVisibility(View.VISIBLE);
         redCircle.setVisibility(View.GONE);
 
-        getActivity().setTitle("SAFE");
+        getActivity().setTitle(getString(R.string.safe_stat));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getActivity().getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-            window.setNavigationBarColor(getResources().getColor(R.color.colorPrimaryDark));
+            window.setStatusBarColor(ContextCompat.getColor(getContext(),R.color.colorPrimaryDark));
+            window.setNavigationBarColor(ContextCompat.getColor(getContext(),R.color.colorPrimaryDark));
 
         }
     }
 
     private void safetyStart() {
+
         if (!SafetyMode.isSafe) {
             Intent intent = new Intent(getContext(), SafetyMode.class);
             getActivity().startService(intent);
@@ -324,14 +331,20 @@ updateWidget();
     @Override
     public void onResume() {
         super.onResume();
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+      if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
+          if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         } else {
-            locationManager.requestLocationUpdates(provider, 400, 1, this);
-        }
+              try {
+                  locationManager.requestLocationUpdates(provider, 400, 1,this);
+              }catch (Exception e){
+                  Log.i("error","cant access motherfucking locations");
+              }
 
-    }
+
+        }
+    } }
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -341,12 +354,12 @@ updateWidget();
         Log.i("Longitude",Double.toString(lon));
        // Convert into String
         // Hello World Comment
-        String latString = String.format("%.5f", lat);
-        String lonString = String.format("%.5f", lon);
+        @SuppressLint("DefaultLocale") String latString = String.format("%.5f", lat);
+        @SuppressLint("DefaultLocale") String lonString = String.format("%.5f", lon);
         googlemapslink = "google.com/maps/search/"+latString+","+lonString;
         Log.i("GOOGLE",googlemapslink);
     }
-  
+
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -363,4 +376,20 @@ updateWidget();
 
     }
 
+    @Override
+    public void onPause() {
+        if(SafetyMode.isSafe) {
+            locationManager.removeUpdates(this);
+        }
+
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(SafetyMode.isSafe) {
+            locationManager.removeUpdates(this);
+        }
+    }
 }

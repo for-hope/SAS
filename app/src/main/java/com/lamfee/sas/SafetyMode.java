@@ -18,6 +18,7 @@ public class SafetyMode extends Service {
 
     public static void unSafeMode(Context context,String maps) {
         //  Toast.makeText(context,"SafetyCheck",Toast.LENGTH_LONG).show();
+
         if (!isSafe) {
             SharedPreferences sharedPref = context.getSharedPreferences("userPref", Context.MODE_APPEND);
             String costumeSMS = sharedPref.getString("costumeSMS", "");

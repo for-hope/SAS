@@ -1,25 +1,25 @@
 package com.lamfee.sas;
 
 
-public class Contacts {
+class Contacts {
 private String contactName;
 private String contactNumber;
 private int id;
 
-    public Contacts(){}
+    Contacts(){}
 
-    public Contacts(String name, String number) {
+    Contacts(String name, String number) {
         super();
         this.contactName = name;
         this.contactNumber = number;
     }
 
 
-    public String getContactNumber() {
+    String getContactNumber() {
         return contactNumber;
     }
 
-    public void setContactNumber(String contactNumber) {
+    void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 
@@ -31,12 +31,12 @@ private int id;
         this.id = id;
     }
 
-    public String getContactName() {
+    String getContactName() {
 
         return contactName;
     }
 
-    public void setContactName(String contactName) {
+    void setContactName(String contactName) {
         this.contactName = contactName;
     }
 

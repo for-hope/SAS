@@ -1,17 +1,18 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frame_layout_tab2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="layout.TAB1">
+    android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
 
-
     <ListView
         android:id="@+id/list"
+        style="@android:style/Widget.DeviceDefault.ExpandableListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true" />
+
 
 
 </FrameLayout>

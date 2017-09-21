@@ -1,13 +1,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@+id/frnlyt"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d1efa7"
-    tools:context="layout.TAB1">
+    android:background="#d1efa7">
 
     <!-- TODO: Update blank fragment layout -->
-
     <ListView
         android:id="@+id/list_tab3"
         android:layout_width="match_parent"

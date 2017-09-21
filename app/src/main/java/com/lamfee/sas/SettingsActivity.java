@@ -2,16 +2,24 @@ package com.lamfee.sas;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-
-/**
- * Created by Lamine on 6/2/2017.
- */
+import android.preference.PreferenceFragment;
+import android.support.v4.content.ContextCompat;
 
 public class SettingsActivity extends PreferenceActivity {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
+    }
 
+    public static class MyPreferenceFragment extends PreferenceFragment
+    {
+        @Override
+        public void onCreate(final Bundle savedInstanceState)
+        {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.preferences);
+        }
     }
 }

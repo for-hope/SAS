@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * Created by Lamine on 5/31/2017.
- */
+import static android.view.View.*;
 
 public class Tab3Fragment extends Fragment {
     public static final String TAG = "Tab3Fragment";
@@ -27,19 +26,19 @@ public class Tab3Fragment extends Fragment {
     private String[] dummyDes;
     private int[] myImageList;
     private int[] colors;
-    private FrameLayout frameLayout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab3,container,false);
         ListView listView = (ListView) view.findViewById(R.id.list_tab3);
-        frameLayout = (FrameLayout) view.findViewById(R.id.frnlyt);
+        FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.frnlyt);
         if(SafetyMode.isSafe){
             frameLayout.setBackgroundColor(Color.parseColor("#d1efa7"));
         } else {
-            frameLayout.setBackgroundColor(getResources().getColor(R.color.layoutred));
+            frameLayout.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.layoutred));
         }
-        dummyStrings = new String[]{"Send a feedback!","Rate it","Share this with your friends!","Donate","License"};
+        dummyStrings = new String[]{"Send a feedback!","Rate it","Share this with your friends!","Donate and Remove ads","License"};
         dummyDes = new String[]{"Send us any questions or feedback you have!","Rate Us On The Play Store!","Share this app with your family and friends to help them too!","Donate and support the Developer","Application License"};
         // myImageList = getResources().getIntArray(R.array.img_id_arr);
         myImageList = new int[]{R.drawable.ic_assignment_white_24dp, R.drawable.ic_star_white_24dp,R.drawable.ic_share_white_24dp,R.drawable.ic_favorite_white_24dp,R.drawable.ic_note_white_24dp,R.drawable.ic_action_tick};
@@ -69,7 +68,7 @@ public class Tab3Fragment extends Fragment {
                         break;
                     }
                     case 4: {
-                        Toast.makeText(getContext(), "Made by Lamine with Love", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Copyright © 2017 by Lamfee", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -99,7 +98,7 @@ public class Tab3Fragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = View.inflate(getContext(), R.layout.costume_list, null);
+            convertView = inflate(getContext(), R.layout.costume_list, null);
             TextView title = (TextView) convertView.findViewById(R.id.textView_title);
             title.setText(dummyStrings[position]);
             TextView description= (TextView) convertView.findViewById(R.id.textView_description);

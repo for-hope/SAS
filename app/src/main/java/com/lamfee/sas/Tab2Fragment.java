@@ -1,6 +1,7 @@
 package com.lamfee.sas;
 
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static android.view.View.inflate;
 
 
 public class Tab2Fragment extends Fragment {
@@ -41,7 +43,6 @@ public class Tab2Fragment extends Fragment {
     private int[] myImageList;
     private int[] colors;
     private static final int RESULT_PICK_CONTACT = 1;
-    private Contacts contact;
     MySQLiteHelper db;
     List<Contacts> list;
     String m_Text;
@@ -95,6 +96,7 @@ public class Tab2Fragment extends Fragment {
             }
         });
 
+
         return  view;
     }
    private class CostumeAdapter extends BaseAdapter {
@@ -116,7 +118,7 @@ public class Tab2Fragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = View.inflate(getContext(), R.layout.costume_list, null);
+            convertView = inflate(getContext(), R.layout.costume_list,null);
             TextView title = (TextView) convertView.findViewById(R.id.textView_title);
             title.setText(dummyStrings[position]);
             TextView description= (TextView) convertView.findViewById(R.id.textView_description);
@@ -153,6 +155,7 @@ public class Tab2Fragment extends Fragment {
                 // Consider using CursorLoader to perform the query.
                 Cursor cursor = getActivity().getContentResolver()
                         .query(contactUri, projection, null, null, null);
+                assert cursor != null;
                 cursor.moveToFirst();
 
                 // Retrieve the phone number from the NUMBER column
@@ -162,12 +165,13 @@ public class Tab2Fragment extends Fragment {
                 String nameYes = cursor.getString(column2);
                 Toast.makeText(getContext(), "Number=" + number + " " + nameYes, Toast.LENGTH_SHORT).show();
                 //saveInfo(nameYes,number);
-                contact = new Contacts(nameYes,number);
+                Contacts contact = new Contacts(nameYes, number);
                 if (db.hasObject(number)){
                     Toast.makeText(getContext(),"Contact Already Exists",Toast.LENGTH_LONG).show();
                 } else {
                     db.addContact(contact);
                 }
+                cursor.close();
 
             }
         }
@@ -175,17 +179,17 @@ public class Tab2Fragment extends Fragment {
 
 
 
-    public void displayInfo() {
+    /*public void displayInfo() {
         list = db.getAllContacts();
 //        Toast.makeText(getContext(),"Name = " + list.get(0).getContactName() + "         Number = " + list.get(0).getContactNumber() ,Toast.LENGTH_LONG).show();
-    }
+    }*/
 
     private void getNumberPicker() {
         final AlertDialog.Builder d = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.number_picker_dialog, null);
-        d.setTitle("SMS Repeating Period (in MINUTES)");
-        d.setMessage("Please choose the period which your SMS will be repeatedly sent in UNSAFE MODE");
+        @SuppressLint("InflateParams") View dialogView = inflater.inflate(R.layout.number_picker_dialog,null);
+        d.setTitle(R.string.period_title);
+        d.setMessage(R.string.period_desc);
         d.setView(dialogView);
         final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.dialog_number_picker);
         numberPicker.setMaxValue(60);

@@ -6,25 +6,52 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="true">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <activity
-            android:name="com.lamfee.sas.SettingsActivity">
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name="com.lamfee.sas.ContactsListActivity">
-            android:label="@string/app_name">
-        </activity>
 
+            android:name="com.lamfee.sas.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name">
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data android:scheme="http"
+                    android:host="www.lamfee.com"
+                    android:pathPrefix="/SafeMe" />
+                <!-- note that the leading "/" is required for pathPrefix-->
+                <!-- Accepts URIs that begin with "example://gizmos” -->
+                <data android:scheme="lamfee"
+                    android:host="SafeMe" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.lamfee.sas.ContactsListActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name="com.lamfee.sas.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,8 +67,8 @@
         <receiver android:name="com.lamfee.sas.MyReceiver" >
         </receiver>
         <receiver
-            android:icon="@drawable/ic_action1_tick"
-            android:label="Example Widget"
+            android:icon="@drawable/widget_circle"
+            android:label="Safe Widget"
             android:name="com.lamfee.sas.MyWidgetProvider" >
             <intent-filter >
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -49,7 +76,8 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                android:resource="@xml/widget_info"
+                />
         </receiver>
     </application>
 

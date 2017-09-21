@@ -13,13 +13,13 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 
-public class MySQLiteHelper extends SQLiteOpenHelper {
+class MySQLiteHelper extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
     private static final String DATABASE_NAME = "ContactsDB";
 
-    public MySQLiteHelper(Context context) {
+    MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -49,17 +49,17 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
      * CRUD operations (create "add", read "get", update, delete) contacts + get all contactss + delete all contactss
      */
 
-    // Contactss table name
+    // Contacts table name
     private static final String TABLE_CONTACTS = "contacts";
 
-    // Contactss Table Columns names
-    private static final String KEY_ID = "id";
+    // Contacts Table Columns names
+    //private static final String KEY_ID = "id";
     private static final String KEY_NAME = "contactName";
     private static final String KEY_NUMBER = "contactNumber";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_NAME, KEY_NUMBER};
+    //private static final String[] COLUMNS = {KEY_ID,KEY_NAME, KEY_NUMBER};
 
-    public void addContact(Contacts contacts){
+    void addContact(Contacts contacts){
         Log.d("addContacts", contacts.toString());
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -77,7 +77,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 4. close
         db.close();
     }
-
+/*
     public Contacts getContact(int id){
 
         // 1. get reference to readable DB
@@ -94,6 +94,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                         null, // g. order by
                         null); // h. limit
 
+
         // 3. if we got results get the first one
         if (cursor != null)
             cursor.moveToFirst();
@@ -105,14 +106,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         contacts.setContactNumber(cursor.getString(2));
 
         Log.d("getContacts("+id+")", contacts.toString());
-
+        cursor.close();
         // 5. return contacts
         return contacts;
-    }
+    }*/
 
     // Get All Contactss
-    public List<Contacts> getAllContacts() {
-        List<Contacts> contacts = new LinkedList<Contacts>();
+    List<Contacts> getAllContacts() {
+        List<Contacts> contacts = new LinkedList<>();
 
         // 1. build the query
         String query = "SELECT  * FROM " + TABLE_CONTACTS;
@@ -122,7 +123,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
 
         // 3. go over each row, build contacts and add it to list
-        Contacts contact = null;
+        Contacts contact;
         if (cursor.moveToFirst()) {
             do {
                 contact = new Contacts();
@@ -136,13 +137,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
 
         Log.d("getAllContactss()", contacts.toString());
-
+        cursor.close();
         // return contacts
         return contacts;
     }
 
     // Updating single contacts
-    public int updateContact(Contacts contact) {
+   /* public int updateContact(Contacts contact) {
 
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -163,10 +164,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         return i;
 
-    }
+    }*/
 
     // Deleting single contacts
-    public void deleteContact(Contacts contact) {
+   /* public void deleteContact(Contacts contact) {
 
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -181,8 +182,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         Log.d("deleteContacts", contact.toString());
 
-    }
-    public void removeAll()
+    }*/
+    void removeAll()
     {
         // db.delete(String tableName, String whereClause, String[] whereArgs);
         // If whereClause is null, it will delete all rows.
@@ -190,7 +191,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.delete(TABLE_CONTACTS, null, null);
 
     }
-    public Cursor getRecords() {
+    Cursor getRecords() {
         getReadableDatabase();
 
         // TodoDatabaseHandler is a SQLiteOpenHelper class connecting to SQLite
@@ -198,10 +199,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 // Get access to the underlying writeable database
         SQLiteDatabase db = this.getReadableDatabase();
 // Query for items from the database and get a cursor back
-        Cursor todoCursor = db.rawQuery("SELECT rowid _id, * FROM " + TABLE_CONTACTS, null);
-        return  todoCursor;
+        return db.rawQuery("SELECT rowid _id, * FROM " + TABLE_CONTACTS, null);
     }
-    public boolean hasObject(String id) {
+    boolean hasObject(String id) {
         SQLiteDatabase db = getWritableDatabase();
         String selectString = "SELECT * FROM " + TABLE_CONTACTS + " WHERE " + KEY_NUMBER + " =?";
 
